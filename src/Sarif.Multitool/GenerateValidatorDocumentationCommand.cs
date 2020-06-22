@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Microsoft.CodeAnalysis.Sarif.Driver;
@@ -28,7 +29,15 @@ namespace Microsoft.CodeAnalysis.Sarif.Multitool
 
                 Console.WriteLine($"Writing validation rule documentation to '{options.OutputFilePath}'...");
                 string documentTemplate = GetResourceText("Microsoft.CodeAnalysis.Sarif.Multitool.DocumentTemplates.SarifValidationRules.md");
-                _fileSystem.WriteAllText(options.OutputFilePath, documentTemplate);
+
+                var replacements = new Dictionary<string, string>
+                {
+                    ["Test"] = "Hello, replacement string!"
+                };
+
+                string document = ReplacePlaceholders(documentTemplate, replacements);
+
+                _fileSystem.WriteAllText(options.OutputFilePath, document);
                 Console.WriteLine("Done.");
             }
             catch (Exception ex)
@@ -40,7 +49,7 @@ namespace Microsoft.CodeAnalysis.Sarif.Multitool
             return SUCCESS;
         }
 
-        private string GetResourceText(string resourceName)
+        private static string GetResourceText(string resourceName)
         {
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             {
@@ -54,6 +63,18 @@ namespace Microsoft.CodeAnalysis.Sarif.Multitool
                     return reader.ReadToEnd();
                 }
             }
+        }
+
+        private static string ReplacePlaceholders(string documentTemplate, IDictionary<string, string> replacements)
+        {
+            string document = documentTemplate;
+
+            foreach (KeyValuePair<string, string> replacement in replacements)
+            {
+                document = document.Replace("{{" + replacement.Key + "}}", replacement.Value);
+            }
+
+            return document;
         }
     }
 }
