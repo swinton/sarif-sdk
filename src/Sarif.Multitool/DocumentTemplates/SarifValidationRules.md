@@ -58,7 +58,7 @@ We first present the rules that detect serious violations of the SARIF spec (rul
 
 Then come the rules that detect either less serious violations of the SARIF spec (rules which the validator would report as `"warning"` or `"note"`). They have numbers in the range 2000-2999, for example, `SARIF2001.AuthorHighQualityMessages`.
 
-Each analysis rule has a description that describes the purpose of the rule, followed by one or more messages that can appear in a SARIF result object that reports a violtion of this rule
+Each analysis rule has a description that describes the purpose of the rule, followed by one or more messages that can appear in a SARIF result object that reports a violtion of this rule.
 
 ## Rules that describe serious violations
 
