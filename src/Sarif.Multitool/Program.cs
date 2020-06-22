@@ -13,31 +13,31 @@ namespace Microsoft.CodeAnalysis.Sarif.Multitool
         public static int Main(string[] args)
         {
             return Parser.Default.ParseArguments<
-                ValidateOptions,
-                ConvertOptions,
-                RewriteOptions,
-                TransformOptions,
-                MergeOptions,
-                RebaseUriOptions,
                 AbsoluteUriOptions,
+                ConvertOptions,
+                FileWorkItemsOptions,
+                MergeOptions,
                 PageOptions,
                 QueryOptions,
+                RebaseUriOptions,
                 ResultMatchingOptions,
                 ResultMatchSetOptions,
-                FileWorkItemsOptions>(args)
+                RewriteOptions,
+                TransformOptions,
+                ValidateOptions>(args)
                 .MapResult(
-                (ValidateOptions validateOptions) => new ValidateCommand().Run(validateOptions),
-                (ConvertOptions convertOptions) => new ConvertCommand().Run(convertOptions),
-                (RewriteOptions rewriteOptions) => new RewriteCommand().Run(rewriteOptions),
-                (TransformOptions transformOptions) => new TransformCommand().Run(transformOptions),
-                (MergeOptions mergeOptions) => new MergeCommand().Run(mergeOptions),
-                (RebaseUriOptions rebaseOptions) => new RebaseUriCommand().Run(rebaseOptions),
                 (AbsoluteUriOptions absoluteUriOptions) => new AbsoluteUriCommand().Run(absoluteUriOptions),
+                (ConvertOptions convertOptions) => new ConvertCommand().Run(convertOptions),
+                (FileWorkItemsOptions fileWorkItemsOptions) => new FileWorkItemsCommand().Run(fileWorkItemsOptions),
+                (MergeOptions mergeOptions) => new MergeCommand().Run(mergeOptions),
                 (PageOptions pageOptions) => new PageCommand().Run(pageOptions),
                 (QueryOptions queryOptions) => new QueryCommand().Run(queryOptions),
+                (RebaseUriOptions rebaseOptions) => new RebaseUriCommand().Run(rebaseOptions),
                 (ResultMatchingOptions baselineOptions) => new ResultMatchingCommand().Run(baselineOptions),
                 (ResultMatchSetOptions options) => new ResultMatchSetCommand().Run(options),
-                (FileWorkItemsOptions fileWorkItemsOptions) => new FileWorkItemsCommand().Run(fileWorkItemsOptions),
+                (RewriteOptions rewriteOptions) => new RewriteCommand().Run(rewriteOptions),
+                (TransformOptions transformOptions) => new TransformCommand().Run(transformOptions),
+                (ValidateOptions validateOptions) => new ValidateCommand().Run(validateOptions),
                 errs => CommandBase.FAILURE);
         }
     }
