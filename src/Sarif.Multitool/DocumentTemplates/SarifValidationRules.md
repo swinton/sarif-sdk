@@ -52,157 +52,24 @@ sarif
 
 ### How this document is organized
 
-This document expresses each structural requirement and guideline as a SARIF analysis rule. At the time of this writing, not all of those rules actually exist. Those that do not are labled "(NYI)".
+This document expresses each structural requirement and guideline as a validator analysis rule. At the time of this writing, not all of those rules actually exist. Those that do not are labled "(NYI)".
 
-We first present the rules that detect serious violations of the SARIF spec (rules which validator would report as `"error"`). They have numbers in the range 1000-1999, for example, `SARIF1001.RuleIdentifiersMustBeValid`.
+First come the rules that detect serious violations of the SARIF spec (rules which the validator would report as `"error"`). They have numbers in the range 1000-1999, for example, `SARIF1001.RuleIdentifiersMustBeValid`.
 
 Then come the rules that detect either less serious violations of the SARIF spec (rules which the validator would report as `"warning"` or `"note"`). They have numbers in the range 2000-2999, for example, `SARIF2001.AuthorHighQualityMessages`.
 
-Each analysis rule has a description that describes the purpose of the rule, followed by one or more messages that can appear in a SARIF result object that reports a violtion of this rule.
+Each rule has a description that describes its purpose, followed by one or more messages that can appear in a SARIF result object that reports a violation of this rule.
 
 ## Rules that describe serious violations
 
 Rules that describe violations of **SHALL**/**SHALL NOT** requirements of the [SARIF specification](https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/sarif-v2.1.0-os.html) have numbers between 1000 and 1999, and always have level `"error"`.
 
----
+{{errorLevelRules}}
 
-### Rule `SARIF1001.RuleIdentifiersMustBeValid`
-
-#### Description
-
-SARIF rules have two identifiers. The required 'id' property must be a "stable, opaque identifier" (the SARIF specification ([§3.49.3](https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/sarif-v2.1.0-os.html#_Toc34317839)) explains the reasons for this). The optional 'name' property ([§3.49.7](https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/sarif-v2.1.0-os.html#_Toc34317843)) is an identifer that is understandable to an end user. Therefore if both 'id' and 'name' are present, they must be different. If both 'name' and 'id' are opaque identifiers, omit the 'name' property. If both 'name' and 'id' are human-readable identifiers, then consider assigning an opaque identifier to each rule, but in the meantime, omit the 'name' property.
-
-#### Messages
-
-##### `Default`: error
-
-{0}: The rule '{1}' has a 'name' property that is identical to its 'id' property. The required 'id' property must be a "stable, opaque identifier" (the SARIF specification ([§3.49.3](https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/sarif-v2.1.0-os.html#_Toc34317839)) explains the reasons for this). The optional 'name' property ([§3.49.7](https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/sarif-v2.1.0-os.html#_Toc34317843)) is an identifer that is understandable to an end user. Therefore if both 'id' and 'name' are present, they must be different.
-
-# Rules that describe less serious violations
+## Rules that describe less serious violations
 
 Rules that describe violations of **SHOULD**/**SHOULD NOT** requirements of the [SARIF specification](https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/sarif-v2.1.0-os.html) have numbers between 2000 and 2999, and always have level `"warning"`.
 
 Rules that describe violations of SARIF recommendations or best practices also have numbers in this range. Some of those recommendations are expressed in the spec as **MAY** requirements; others are based on experience using the format. These rules have level `"warning"` or `"note"`, depending on the tool's opinion of the seriousness of the violation.
 
----
-
-## Rule `SARIF2001.AuthorHighQualityMessages`
-
-### Description
-
-### Messages
-
-#### `IncludeDynamicContent`: warning
-
-#### `EnquoteDynamicContent`: warning
-
-#### `TerminateWithPeriod`: warning
-
----
-
-## Rule `SARIF2002.UseMessageArguments`
-
-### Description
-
-### Messages
-
-#### `Default`: warning
-
----
-
-## Rule `SARIF2003.ProduceEnrichedSarif`
-
-### Description
-
-### Messages
-
-#### `ProvideVersionControlProvenance`: note
-
-#### `ProvideCodeSnippets`: note
-
-#### `ProvideContextRegion`: note
-
-#### `ProvideRuleHelpUris`: note
-
-#### `EmbedFileContent`: note
-
----
-
-## Rule `SARIF2004.OptimizeFileSize`
-
-### Description
-
-### Messages
-
-#### `EliminateLocationOnlyArtifacts`: warning
-
-#### `DoNotIncludeExtraIndexedObjectProperties`: warning
-
----
-
-## Rule `SARIF2005.ProvideHelpfulToolInformation`
-
-### Description
-
-### Messages
-
-#### `ProvideConciseToolName`: note
-
-#### `ProvideToolVersion`: warning
-
-#### `UseNumericToolVersions`: warning
-
----
-
-## Rule `SARIF2006.UrisShouldBeReachable`
-
-### Description
-
-### Messages
-
-#### `Default`: warning
-
----
-
-## Rule `SARIF2007.ExpressPathsRelativeToRepoRoot`
-
-### Description
-
-### Messages
-
-#### `Default`: warning
-
----
-
-## Rule `SARIF2008.ProvideSchema`
-
-### Description
-
-### Messages
-
-#### `Default`: warning
-
----
-
-## Rule `SARIF2009.UseConventionalSymbolicNames`
-
-### Description
-
-SARIF uses symbolic names in various contexts. This rule proposes uniform naming conventions for the various types of symbolic names.
-
-Many tools follow a conventional format for the 'reportingDescriptor.id' property: a short string identifying the tool concatenated with a numeric rule number,
-for example, 'CS2001' for a diagnostic from the Roslyn C# compiler. For uniformity of experience across tools, we recommend this format.
-
-Many tool use similar names for 'uriBaseId' symbols. We suggest 'REPOROOT' for the root of a repository, 'SRCROOT' for the root of the directory containing all source code, 'TESTROOT' for the root of the directory containing all test code (if your repository is organized in that way), and 'BINROOT' for the root of the directory containing build output (if your project places all build output in a common directory).
-
-### Messages
-
-#### `UseConventionalRuleIds`: note
-
-{0}: The 'name' property ' of the rule '{1}' does not follow the recommended format: a short string identifying the tool concatenated with a numeric rule number, for example, `CS2001`. Using a conventional format for the rule id provides a more uniform experience across tools.
-
-#### `UseConventionalUriBaseIdNames`: note
-
-{0}: The 'originalUriBaseIds' symbol '{1}' is not one of the conventional symbols. We suggest 'REPOROOT' for the root of a repository, 'SRCROOT' for the root of the directory containing all source code, 'TESTROOT' for the root of the directory containing all test code (if your repository is organized in that way), and 'BINROOT' for the root of the directory containing build output (if your project places all build output in a common directory).
-
----
+{{warningAndNoteLevelRules}}
