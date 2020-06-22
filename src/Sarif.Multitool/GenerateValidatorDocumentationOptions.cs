@@ -12,8 +12,8 @@ namespace Microsoft.CodeAnalysis.Sarif.Multitool
     [Verb("generate-validator-documentation", HelpText = "Generate a Markdown document that describes the rules used by the 'validate' command.")]
     internal class GenerateValidatorDocumentationOptions
     {
-        [Option('o',
-            "output",
+        [Value(0,
+            MetaName = "<output-file>",
             Required = false,
             Default = "SarifValidationRules.md")]
         public string OutputFilePath { get; set; }

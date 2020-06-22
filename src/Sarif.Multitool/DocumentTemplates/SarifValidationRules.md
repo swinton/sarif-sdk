@@ -1,0 +1,3 @@
+﻿# SARIF Validation Rules
+
+{{Test}}
