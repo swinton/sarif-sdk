@@ -149,6 +149,9 @@ module.exports = function (results, data) {
                                         text: meta.docs.description
                                     },
                                     helpUri: meta.docs.url,
+                                    help: {
+                                        text: meta.docs.url
+                                    },
                                     properties: {
                                         category: meta.docs.category
                                     }
